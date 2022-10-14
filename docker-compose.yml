@@ -3,17 +3,22 @@ version: "3"
 services:
   client:
     build:
-      context: ./frontend
+      context: ./app/frontend
       dockerfile: Dockerfile
     volumes:
-      - ./src:/frontend/src
+      - ./src:/app/frontend/src
     ports:
       - "3000:3000"
   server:
     build:
-      context: ./backend
+      context: ./app/backend
       dockerfile: Dockerfile
     volumes:
-      - ./src:/backend/src
+      - ./src:/app/backend/src
     ports:
       - "3001:3001"
+  mongodb:
+    image: mongo
+    container_name: 'mongo'
+    ports:
+      - "3002:3002"
