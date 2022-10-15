@@ -3,7 +3,8 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        148: "35rem",
+        88: "22rem",
+        148: "38rem",
       },
     },
   },

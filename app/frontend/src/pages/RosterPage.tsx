@@ -12,6 +12,8 @@ const RosterPage = () => {
     { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
   ];
 
+  // assume we can only edit events in the future
+
   const times: String[] = ["5am", "6am", "7am"];
 
   return (
@@ -27,14 +29,15 @@ const RosterPage = () => {
         </div>
         <div className="col-span-1">
           <div className="flex flex-col card w-100 p-6 bg-white shadow-xl">
-            <div className="card h-96 bg-base-200 shadow-xl">
+            <div className="mb-3 mt-1 card h-88 bg-base-200 shadow-xl">
               <div className="card-body">
                 <SelectInput times={times} label={"Start Time"}></SelectInput>
                 <SelectInput times={times} label={"End Time"}></SelectInput>
                 <DateInput></DateInput>
+                <button className="my-4 btn btn-primary">Create</button>
               </div>
             </div>
-            <div className="card w-100 bg-base-200 shadow-xl">
+            <div className="mt-3 mb-1 card h-60 w-100 bg-base-200 shadow-xl">
               <div className="card-body">test</div>
             </div>
           </div>
