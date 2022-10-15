@@ -19,6 +19,6 @@ services:
       - "3001:3001"
   mongodb:
     image: mongo
-    container_name: 'mongo'
+    container_name: "mongo"
     ports:
       - "3002:3002"

@@ -1,24 +1,36 @@
-import React, {FC} from 'react';
-import Header from "./components/header"
-import Card from './components/card';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import LoginPage from "./pages/LoginPage"
+import RosterPage from "./pages/RosterPage"
+import { initializeApp } from "firebase/app"
+import { config } from "./config/config"
+import AuthRoute from "./routes/AuthRoute"
 
-const App:FC = () => {
+initializeApp(config.firebaseConfig)
+
+function AppRoutes() {
   return (
-    <div className="App">
-      <Header />
-      <ul className="menu menu-horizontal bg-base-100 rounded-box">
-        <li><a>Daily</a></li>
-        <li><a>Weekly</a></li>
-        <li><a>Monthly</a></li>
-      </ul>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2"> Hello</div>
-        <div className="col-span-1">
-          <Card/>
-        </div>
-      </div>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/roster"
+          element={
+            <AuthRoute>
+              <RosterPage />
+            </AuthRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+const App = () => {
+  return (
+    <div className="App">
+      <AppRoutes></AppRoutes>
+    </div>
+  )
+}
+
+export default App
