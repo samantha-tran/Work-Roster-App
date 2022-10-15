@@ -8,7 +8,7 @@ const BigCalendar = ({ eventsList }: { eventsList: EventType[] }) => {
   const mLocalizer = momentLocalizer(moment);
 
   return (
-    <div className="">
+    <div className="h-148">
       <Calendar
         defaultView="week"
         localizer={mLocalizer}
