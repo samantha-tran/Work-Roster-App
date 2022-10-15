@@ -1,5 +1,10 @@
+import Header from "../components/Header";
 const RosterPage = () => {
-  return <div>Roster Page</div>
-}
+  return (
+    <div>
+      <Header />
+    </div>
+  );
+};
 
-export default RosterPage
+export default RosterPage;

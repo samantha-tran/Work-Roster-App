@@ -20,6 +20,14 @@ function AppRoutes() {
             </AuthRoute>
           }
         />
+        <Route
+          path="/"
+          element={
+            <AuthRoute>
+              <RosterPage />
+            </AuthRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
