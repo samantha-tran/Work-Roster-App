@@ -4,6 +4,7 @@ import BigCalendar from "../components/BigCalendar";
 import { EventType } from "../types/EventType";
 import SelectInput from "../components/SelectInput";
 import DateInput from "../components/DateInput";
+import ShiftDisplay from "../components/ShiftDisplay";
 
 const RosterPage = () => {
   const eventsList: EventType[] = [
@@ -29,7 +30,7 @@ const RosterPage = () => {
         </div>
         <div className="col-span-1">
           <div className="flex flex-col card w-100 p-6 bg-white shadow-xl">
-            <div className="mb-3 mt-1 card h-88 bg-base-200 shadow-xl">
+            <div className="mb-3 mt-1 card h-88 bg-base-200">
               <div className="card-body">
                 <SelectInput times={times} label={"Start Time"}></SelectInput>
                 <SelectInput times={times} label={"End Time"}></SelectInput>
@@ -37,8 +38,13 @@ const RosterPage = () => {
                 <button className="my-4 btn btn-primary">Create</button>
               </div>
             </div>
-            <div className="mt-3 mb-1 card h-60 w-100 bg-base-200 shadow-xl">
-              <div className="card-body">test</div>
+            <div className="mt-3 mb-1 card h-60 w-100 bg-base-200 shadow-xl overflow-auto">
+              <div className="card-body">
+                <h2 className="card-title">My Coming Shifts</h2>
+                {eventsList.map((e) => {
+                  return <ShiftDisplay shift={e}></ShiftDisplay>;
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -1,15 +1,15 @@
 const Footer = () => {
   return (
     <footer className="footer items-center py-4 px-8 bg-base-100 text-neutral-content">
-      <div className="grid-flow-col gap-10 md:place-self-center md:justify-self-end">
-        <p className="text-black">Made by Samantha ♥ for INFS3208</p>
-        <a>
+      <div className="grid-flow-col gap-6 md:place-self-center md:justify-self-end">
+        <p className="prose">Made with ♥ by Samantha for INFS3208</p>
+        <a href="https://github.com/samantha-tran/Work-Roster-App" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             viewBox="0 0 16 16"
-            className="fill-black"
+            className="fill-base-content"
           >
             <path
               fill-rule="evenodd"
