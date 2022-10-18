@@ -9,7 +9,7 @@ import ShiftDisplay from "../components/ShiftDisplay";
 const RosterPage = () => {
   const eventsList: EventType[] = [
     { title: "test1", start: new Date(2022, 10, 14), end: new Date(2022, 10, 14) },
-    { title: "test2", start: new Date(2022, 3, 7), end: new Date(2022, 3, 10) },
+    { title: "test2", start: new Date(2022, 3, 7), end: new Date(2022, 3, 7) },
     { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
   ];
 

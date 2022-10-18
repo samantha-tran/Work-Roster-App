@@ -8,4 +8,4 @@ export const config = {
     messagingSenderId: "774443074842",
     appId: "1:774443074842:web:2225a6efcaa0b76eba58a3",
   },
-}
+};
