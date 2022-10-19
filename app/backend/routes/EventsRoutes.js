@@ -1,12 +1,15 @@
 const express = require("express");
+const {
+  createEvent,
+  removeEvent,
+  getAllEvents,
+  getUserEvents,
+} = require("../controllers/EventController");
+
 const router = express.Router();
 
-router.post("/all", (req, res) => {
-  res.send({ message: "get all events" });
-});
+router.post("/all", getAllEvents);
 
-router.post("/user", (req, res) => {
-  res.send({ message: "get user events" });
-});
+router.post("/user", getUserEvents);
 
 module.exports = router;
