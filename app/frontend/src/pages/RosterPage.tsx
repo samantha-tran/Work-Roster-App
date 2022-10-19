@@ -11,6 +11,8 @@ const RosterPage = () => {
     { title: "test1", start: new Date(2022, 10, 14), end: new Date(2022, 10, 14) },
     { title: "test2", start: new Date(2022, 3, 7), end: new Date(2022, 3, 7) },
     { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
+    { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
+    { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
   ];
 
   // assume we can only edit events in the future
@@ -38,13 +40,13 @@ const RosterPage = () => {
                 <button className="my-4 btn btn-primary">Create</button>
               </div>
             </div>
-            <div className="mt-3 mb-1 card h-60 w-100 bg-base-200 shadow-xl overflow-auto">
-              <div className="card-body">
-                <h2 className="card-title">My Coming Shifts</h2>
-                {eventsList.map((e) => {
-                  return <ShiftDisplay shift={e}></ShiftDisplay>;
-                })}
-              </div>
+            <div className="card px-8 py-4 pb-0 rounded-b-none h-15 w-100 bg-base-200">
+              <h2 className="card-title">My Coming Shifts</h2>
+            </div>
+            <div className="overflow-auto mb-1 card p-8 pt-0 rounded-t-none h-52 w-100 bg-base-200">
+              {eventsList.map((e) => {
+                return <ShiftDisplay shift={e}></ShiftDisplay>;
+              })}
             </div>
           </div>
         </div>
