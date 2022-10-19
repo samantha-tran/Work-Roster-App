@@ -8,11 +8,36 @@ import ShiftDisplay from "../components/ShiftDisplay";
 
 const RosterPage = () => {
   const eventsList: EventType[] = [
-    { title: "test1", start: new Date(2022, 10, 14), end: new Date(2022, 10, 14) },
-    { title: "test2", start: new Date(2022, 3, 7), end: new Date(2022, 3, 7) },
-    { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
-    { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
-    { title: "test3", start: new Date(2015, 4, 7), end: new Date(2015, 4, 10) },
+    {
+      id: 1,
+      title: "test1",
+      start: new Date(2022, 10, 14),
+      end: new Date(2022, 10, 14),
+    },
+    {
+      id: 2,
+      title: "test2",
+      start: new Date(2022, 3, 7),
+      end: new Date(2022, 3, 7),
+    },
+    {
+      id: 3,
+      title: "test3",
+      start: new Date(2015, 4, 7),
+      end: new Date(2015, 4, 10),
+    },
+    {
+      id: 4,
+      title: "test3",
+      start: new Date(2015, 4, 7),
+      end: new Date(2015, 4, 10),
+    },
+    {
+      id: 5,
+      title: "test3",
+      start: new Date(2015, 4, 7),
+      end: new Date(2015, 4, 10),
+    },
   ];
 
   // assume we can only edit events in the future
@@ -45,7 +70,7 @@ const RosterPage = () => {
             </div>
             <div className="overflow-auto mb-1 card p-8 pt-0 rounded-t-none h-52 w-100 bg-base-200">
               {eventsList.map((e) => {
-                return <ShiftDisplay shift={e}></ShiftDisplay>;
+                return <ShiftDisplay key={e.id} shift={e}></ShiftDisplay>;
               })}
             </div>
           </div>

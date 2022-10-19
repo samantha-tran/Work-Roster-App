@@ -10,7 +10,7 @@ const ShiftDisplay = ({ shift }: { shift: EventType }) => {
       <div className="flex flex-row p-2 flex-wrap justify-between">
         <div className="badge badge-outline">test date</div>
         <h2 className="card-title text-sm">
-          {shift.title}
+          {`${shift.id}: ${shift.title}`}
           {/* {`${shift.start} to ${shift.end}`} */}
         </h2>
         <div className="card-actions justify-end">
