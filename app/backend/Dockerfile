@@ -1,8 +1,8 @@
-FROM node:latest
+FROM node:lts-alpine
 WORKDIR /server 
-COPY package.json ./ 
+COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn install 
 COPY . .
-EXPOSE 3001
+EXPOSE 3002
 CMD yarn start

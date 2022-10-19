@@ -6,7 +6,7 @@ services:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongo-server
+      ME_CONFIG_MONGODB_SERVER: mongo-db
       ME_CONFIG_BASICAUTH_USERNAME: admin
       ME_CONFIG_BASICAUTH_PASSWORD: q
       ME_CONFIG_MONGODB_PORT: 27017
@@ -18,13 +18,13 @@ services:
     links:
       - mongo-db
     networks:
-      - mongodb-network
+      - app-network
 
   mongo-db:
     image: mongo:latest
-    container_name: mongo-server
+    container_name: mongo-db
     environment:
-      MONGO_INITDB_DATABASE: demodb
+      MONGO_INITDB_DATABASE: workrosterapp
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
@@ -32,10 +32,21 @@ services:
     volumes:
       - mongodb_data_container:/data/db
     networks:
-      - mongodb-network
+      - app-network
+
+  backend:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo-db
+    ports:
+      - "3002:3002"
+    networks:
+      - app-network
 
 networks:
-  mongodb-network:
+  app-network:
     driver: bridge
 
 volumes:

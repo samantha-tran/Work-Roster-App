@@ -1,6 +1,10 @@
 FROM node:latest
-WORKDIR /app
+WORKDIR /client 
+COPY package.json ./ 
+COPY yarn.lock ./
+RUN yarn install 
 COPY . .
-RUN yarn
-EXPOSE 5173
-CMD ["yarn", "vite", "dev"]
+ENV NODE_ENV=development
+ENV PORT = 8000
+EXPOSE 8000
+CMD ["yarn", "start"]

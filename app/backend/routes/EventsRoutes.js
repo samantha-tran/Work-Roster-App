@@ -12,4 +12,8 @@ router.post("/all", getAllEvents);
 
 router.post("/user", getUserEvents);
 
+router.post("/create", createEvent);
+
+router.post("/remove", removeEvent);
+
 module.exports = router;
