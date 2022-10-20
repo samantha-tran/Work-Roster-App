@@ -1,11 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RosterPage from "./pages/RosterPage";
-import { initializeApp } from "firebase/app";
-import { config } from "./config/config";
 import RegisterPage from "./pages/RegisterPage";
-
-initializeApp(config.firebaseConfig);
+import PrivateRoute from "./components/PrivateRoute";
 
 function AppRoutes() {
   return (
@@ -13,8 +10,8 @@ function AppRoutes() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/roster" element={<RosterPage />} />
-        <Route path="/" element={<RosterPage />} />
+        <Route path="/rosters" element={<PrivateRoute path={<RosterPage />} />} />
+        <Route path="/" element={<PrivateRoute path={<RosterPage />} />} />
       </Routes>
     </BrowserRouter>
   );

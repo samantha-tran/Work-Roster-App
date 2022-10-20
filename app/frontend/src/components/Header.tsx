@@ -1,17 +1,15 @@
 import { getAuth, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout, reset } from "../features/auth/AuthSlice";
+import { logout } from "../features/auth/AuthSlice";
 import { AppDispatch } from "../app/store";
 
 const Header = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch<AppDispatch>();
 
   const onLogout = () => {
     dispatch(logout());
-    dispatch(reset());
     navigate("/login");
   };
 

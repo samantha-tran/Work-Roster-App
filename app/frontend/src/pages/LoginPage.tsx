@@ -47,7 +47,7 @@ const LoginPage = () => {
     dispatch(login(userData))
       .unwrap()
       .then((user) => {
-        navigate("/roster");
+        navigate("/rosters");
       })
       .catch(toast.error);
   };
