@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { register } from "../features/auth/AuthSlice";
+import { AppDispatch } from "../app/store";
 import "react-toastify/dist/ReactToastify.css";
+import { UserType } from "../types/UserType";
 
 const Register = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { user, isLoading, isSuccess } = useSelector((state: any) => state.auth);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,6 +32,14 @@ const Register = () => {
 
     if (password1 !== password2) {
       toast.error("Passwords do not match!");
+    } else {
+      const userData: UserType = {
+        name,
+        email,
+        password: password1,
+      };
+
+      dispatch(register(userData));
     }
   };
 
@@ -31,7 +47,7 @@ const Register = () => {
     <div className="grid h-screen bg-base-200 place-items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body items-center text-center">
-          <h2 className="card-title">Register</h2>
+          <h2 className="card-title">Register {user}</h2>
           <form onSubmit={onSubmit} className="form-control w-full max-w-xs">
             <label className="label mt-3">
               <span className="label-text">Name</span>

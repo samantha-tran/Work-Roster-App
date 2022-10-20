@@ -2,6 +2,10 @@ import React, { useState } from "react";
 // import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../features/auth/AuthSlice";
+import { AppDispatch } from "../app/store";
+import { UserType } from "../types/UserType";
 
 const LoginPage = () => {
   // const [authorising, setAuthorising] = useState(false);
@@ -26,10 +30,19 @@ const LoginPage = () => {
     password: "",
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { user, isLoading, isSuccess } = useSelector((state: any) => state.auth);
+
   const { email, password } = loginDetails;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const userData: UserType = {
+      email,
+      password,
+    };
+    dispatch(login(userData));
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
