@@ -8,12 +8,12 @@ const {
 
 const router = express.Router();
 
-router.post("/all", getAllEvents);
+router.get("/all", getAllEvents);
 
-router.post("/user", getUserEvents);
+router.get("/user", getUserEvents);
 
 router.post("/create", createEvent);
 
-router.post("/remove", removeEvent);
+router.delete("/remove", removeEvent);
 
 module.exports = router;

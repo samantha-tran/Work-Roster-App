@@ -1,11 +1,13 @@
 const express = require("express");
+const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 8002;
 const HOST = "0.0.0.0";
-const MONGODB_URL = "mongodb://mongo:27017";
 
 const app = express();
+
+connectDB();
 
 app.use(express.json()); // allows us to send raw json
 app.use(express.urlencoded({ extended: false })); // allows url encoded form

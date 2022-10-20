@@ -1,3 +1,5 @@
+const Event = require("../models/EventModel");
+
 // @desc create an event
 // @route /api/events/create
 // @access public
