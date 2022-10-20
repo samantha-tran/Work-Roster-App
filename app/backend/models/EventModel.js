@@ -2,20 +2,17 @@ const mongoose = require("mongoose");
 
 const eventSchema = mongoose.Schema(
   {
-    username: {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    startTime: {
       type: String,
       required: [true],
     },
-    userID: {
-      type: Number,
-      required: [true],
-    },
-    startTime: {
-      type: Date,
-      required: [true],
-    },
     endTime: {
-      type: Date,
+      type: String,
       required: [true],
     },
   },
