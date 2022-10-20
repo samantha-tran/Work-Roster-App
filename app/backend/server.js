@@ -2,11 +2,18 @@ const express = require("express");
 const connectDB = require("./config/db");
 const { errorHandler } = require("./middleware/ErrorMiddleware");
 const dotenv = require("dotenv").config();
+const cors = require("cors");
 
 const PORT = process.env.PORT || 8002;
 const HOST = "0.0.0.0";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 connectDB();
 

@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { register } from "../features/auth/AuthSlice";
+import { register, reset } from "../features/auth/AuthSlice";
 import { AppDispatch } from "../app/store";
 import "react-toastify/dist/ReactToastify.css";
 import { UserType } from "../types/UserType";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user, isLoading, isSuccess } = useSelector((state: any) => state.auth);
+  const { user, isError, message, isLoading, isSuccess } = useSelector(
+    (state: any) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess && user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +64,7 @@ const Register = () => {
     <div className="grid h-screen bg-base-200 place-items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body items-center text-center">
-          <h2 className="card-title">Register {user}</h2>
+          <h2 className="card-title">Register</h2>
           <form onSubmit={onSubmit} className="form-control w-full max-w-xs">
             <label className="label mt-3">
               <span className="label-text">Name</span>
