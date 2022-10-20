@@ -8,11 +8,11 @@ const initialState = {
   message: "",
 };
 
-export const AuthSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {},
 });
 
-export default AuthSlice.reducer;
+export default authSlice.reducer;
