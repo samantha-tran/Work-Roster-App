@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -32,6 +32,8 @@ const LoginPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const navigate = useNavigate();
+
   const { user, isLoading, isSuccess } = useSelector((state: any) => state.auth);
 
   const { email, password } = loginDetails;
@@ -42,7 +44,12 @@ const LoginPage = () => {
       email,
       password,
     };
-    dispatch(login(userData));
+    dispatch(login(userData))
+      .unwrap()
+      .then((user) => {
+        navigate("/roster");
+      })
+      .catch(toast.error);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +75,7 @@ const LoginPage = () => {
               required
               onChange={onChange}
               name="email"
-              className="input input-bordered w-full max-w-xs"
+              className="input bg-white input-bordered w-full max-w-xs"
             />
             <label className="label mt-3">
               <span className="label-text">Password</span>
@@ -80,7 +87,7 @@ const LoginPage = () => {
               required
               onChange={onChange}
               name="password"
-              className="input input-bordered w-full max-w-xs"
+              className="input bg-white input-bordered w-full max-w-xs"
             />
             <a className="text-right my-2" href="/register">
               Register here

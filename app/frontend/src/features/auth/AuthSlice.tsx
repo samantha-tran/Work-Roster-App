@@ -17,12 +17,10 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(user);
     } catch (error: any) {
-      const message: String =
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      console.log("rejected");
+      return thunkAPI.rejectWithValue(
+        "Error registering. Account with email already exists"
+      );
     }
   }
 );
@@ -31,9 +29,20 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (user: UserType, thunkAPI) => {
-    console.log(user);
+    try {
+      return await authService.login(user);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        "Error logging in. Double check your details."
+      );
+    }
   }
 );
+
+// Lougout user
+export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
+  console.log("signed out");
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -48,9 +57,6 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(register.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
@@ -60,7 +66,19 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isError = true;
-        state.message = "User already exists";
+      })
+      .addCase(login.rejected, (state) => {
+        state.user = null;
+        state.isError = true;
+        state.isLoading = false;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
       });
   },
 });

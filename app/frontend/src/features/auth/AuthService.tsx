@@ -7,7 +7,6 @@ axios.defaults.baseURL = `http://localhost:3002`;
 // Register user
 const register = async (userData: UserType) => {
   const response = await axios.post(API_URL + "register", userData);
-  console.log(response.data);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }

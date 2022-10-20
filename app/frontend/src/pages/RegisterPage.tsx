@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { register, reset } from "../features/auth/AuthSlice";
+import { register } from "../features/auth/AuthSlice";
 import { AppDispatch } from "../app/store";
 import "react-toastify/dist/ReactToastify.css";
 import { UserType } from "../types/UserType";
@@ -12,21 +12,9 @@ const Register = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user, isError, message, isLoading, isSuccess } = useSelector(
+  const { user, isError, message, isSuccess } = useSelector(
     (state: any) => state.auth
   );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSuccess && user) {
-      navigate("/");
-    }
-
-    dispatch(reset());
-  }, [isError, isSuccess, user, message]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,7 +44,16 @@ const Register = () => {
         password: password1,
       };
 
-      dispatch(register(userData));
+      dispatch(register(userData))
+        .unwrap()
+        .then((user) => {
+          // NOTE: by unwrapping the AsyncThunkAction we can navigate the user after
+          // getting a good response from our API or catch the AsyncThunkAction
+          // rejection to show an error message
+          toast.success(`Logged in as ${user.name}`);
+          navigate("/roster");
+        })
+        .catch(toast.error);
     }
   };
 
