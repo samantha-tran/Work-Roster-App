@@ -8,23 +8,6 @@ import { AppDispatch } from "../app/store";
 import { UserType } from "../types/UserType";
 
 const LoginPage = () => {
-  // const [authorising, setAuthorising] = useState(false);
-  // const navigate = useNavigate();
-  // const auth = getAuth();
-
-  // const signInWithGoogle = async () => {
-  //   setAuthorising(true);
-  //   signInWithPopup(auth, new GoogleAuthProvider())
-  //     .then((response) => {
-  //       console.log(response.user.uid);
-  //       navigate("/roster");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setAuthorising(false);
-  //     });
-  // };
-
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",

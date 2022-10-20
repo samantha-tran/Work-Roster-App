@@ -15,6 +15,6 @@ router.route("/user").get(protect, getUserEvents);
 
 router.route("/create").post(protect, createEvent);
 
-router.route("/remove").delete(protect, removeEvent);
+router.route("/remove/:id").delete(protect, removeEvent);
 
 module.exports = router;
