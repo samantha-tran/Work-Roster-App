@@ -2,19 +2,28 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BigCalendar from "../components/BigCalendar";
 import { EventType } from "../types/EventType";
-import SelectInput from "../components/SelectInput";
-import DateInput from "../components/DateInput";
 import ShiftDisplay from "../components/ShiftDisplay";
 import { useEffect, useState } from "react";
-import { Listbox } from "@headlessui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import { createEvent } from "../features/events/EventSlice";
+import { AppDispatch } from "../app/store";
 
 const RosterPage = () => {
+  const { user } = useSelector((state: any) => state.auth);
+  const { events, event, userEvents } = useSelector((state: any) => state.event);
+  const dispatch = useDispatch<AppDispatch>();
+
   const [validTimes, setValidTimes] = useState<{ start: string[]; end: string[] }>({
     start: [],
     end: [],
   });
 
-  const [startTime, setStartTime] = useState(validTimes.start[0]);
+  const [selectedShift, setSelectedShift] = useState({
+    startTime: "",
+    endTime: "",
+    date: "",
+  });
 
   useEffect(() => {
     let times: string[] = [];
@@ -31,24 +40,40 @@ const RosterPage = () => {
     setValidTimes({ start: times, end: times });
   }, []);
 
+  const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedShift((prevShift) => ({
+      ...prevShift,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const dateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedShift((prevShift) => ({
+      ...prevShift,
+      ["date"]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!selectedShift.date || !selectedShift.startTime || !selectedShift.endTime) {
+      toast.error("Missing shift values");
+    } else if (selectedShift.startTime > selectedShift.endTime) {
+      toast.error("End time must be after start time!");
+    } else {
+      dispatch(createEvent(selectedShift));
+    }
+  };
+
   const eventsList: EventType[] = [
     {
-      id: 1,
+      id: "1",
       title: "test1",
-      start: new Date(2022, 10, 14),
-      end: new Date(2022, 10, 14),
-    },
-    {
-      id: 2,
-      title: "test2",
-      start: new Date(2022, 3, 7),
-      end: new Date(2022, 3, 7),
+      start: "2022-10-03",
+      end: "2022-10-05",
     },
   ];
-
-  // assume we can only edit events in the future
-
-  const times: String[] = ["5am", "6am", "7am"];
 
   return (
     <div className="flex flex-col">
@@ -65,28 +90,41 @@ const RosterPage = () => {
           <div className="flex flex-col card w-100 p-6 bg-white shadow-xl">
             <div className="mb-3 mt-1 card h-88 bg-base-200">
               <div className="card-body items-center">
-                <div className="form-control w-full max-w-xs">
+                <form onSubmit={onSubmit} className="form-control w-full max-w-xs">
                   <h1 className="block text-sm font-medium text-gray-700">
                     Start Time
                   </h1>
                   <div className="bg-white w-80 rounded-md">
-                    <select className="select bg-white focus:outline-none select-sm w-full max-w-xs">
+                    <select
+                      name="startTime"
+                      onChange={selectChange}
+                      className="select bg-white focus:outline-none select-sm w-full max-w-xs"
+                    >
+                      <option value="" selected disabled hidden>
+                        Select
+                      </option>
                       {validTimes.start.map((time, index) => {
-                        return <option>{time}</option>;
+                        return <option value={time}>{time}</option>;
                       })}
                     </select>
                   </div>
-                  <h1 className="block mt-4 text-sm font-medium text-gray-700">
+                  <h1 className="block mt-5 text-sm font-medium text-gray-700">
                     End Time
                   </h1>
                   <div className="bg-white w-80 rounded-md">
-                    <select className="select bg-white focus:outline-none select-sm w-full max-w-xs">
+                    <select
+                      name="endTime"
+                      onChange={selectChange}
+                      className="select bg-white focus:outline-none select-sm w-full max-w-xs"
+                    >
+                      <option value="" selected disabled hidden>
+                        Select
+                      </option>
                       {validTimes.end.map((time, index) => {
-                        return <option>{time}</option>;
+                        return <option value={time}>{time}</option>;
                       })}
                     </select>
                   </div>
-
                   <h1 className="block mt-4 text-sm font-medium text-gray-700">
                     Date
                   </h1>
@@ -94,15 +132,16 @@ const RosterPage = () => {
                     <input
                       className="outline-transparent	"
                       type="date"
-                      id="start"
-                      name="trip-start"
-                      value="2018-07-22"
-                      min="2018-01-01"
-                      max="2018-12-31"
+                      name="date"
+                      min="2022-01-01"
+                      max="2023-12-31"
+                      onChange={dateChange}
                     ></input>
                   </div>
-                  <button className="mb-4 mt-6 btn btn-primary">Create</button>
-                </div>
+                  <button type="submit" className="mb-4 mt-6 btn btn-primary">
+                    Create
+                  </button>
+                </form>
               </div>
             </div>
             <div className="card px-8 py-4 pb-0 rounded-b-none h-15 w-100 bg-base-200">
@@ -110,12 +149,13 @@ const RosterPage = () => {
             </div>
             <div className="overflow-auto mb-1 card p-8 pt-0 rounded-t-none h-52 w-100 bg-base-200">
               {eventsList.map((e) => {
-                return <ShiftDisplay key={e.id} shift={e}></ShiftDisplay>;
+                return <ShiftDisplay shift={e}></ShiftDisplay>;
               })}
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </div>
   );

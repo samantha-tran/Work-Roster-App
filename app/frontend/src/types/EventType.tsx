@@ -1,6 +1,14 @@
 export type EventType = {
-  id: number;
+  id?: String;
   title: String;
-  start: Date;
-  end: Date;
+  start: String;
+  end: String;
+};
+
+export type DecomposedEventType = {
+  id?: string;
+  title?: string;
+  startTime: string;
+  endTime: string;
+  date: string;
 };
