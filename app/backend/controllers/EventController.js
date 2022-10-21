@@ -1,6 +1,7 @@
 const Event = require("../models/EventModel");
 const User = require("../models/UserModel");
 const asyncHandler = require("express-async-handler");
+const moment = require("moment");
 
 // @desc create an event
 // @route POST /api/events/create
@@ -21,8 +22,8 @@ const createEvent = async (req, res) => {
   }
   //Date in YYYY-MM-DDTHH:mm:ss.sssZ format
   //input date type returns a string representing a date in YYYY-MM-DD format, or empty
-  const start = date + "T" + startTime + ":00.000Z";
-  const end = date + "T" + endTime + ":00.000Z ";
+  const start = date + "T" + startTime + ":00";
+  const end = date + "T" + endTime + ":00 ";
   const event = await Event.create({
     user: req.user.id,
     startTime: start,
@@ -61,6 +62,7 @@ const removeEvent = async (req, res) => {
 // @access public
 const getAllEvents = async (req, res) => {
   const events = await Event.find();
+
   res.status(200).json(events);
 };
 

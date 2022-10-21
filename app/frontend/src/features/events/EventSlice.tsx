@@ -19,7 +19,7 @@ export const createEvent = createAsyncThunk(
       const { startTime, endTime, date } = eventData;
 
       const event = {
-        title: getState().auth.user.name,
+        title: getState().auth.user,
         startTime,
         endTime,
         date,
@@ -32,12 +32,13 @@ export const createEvent = createAsyncThunk(
   }
 );
 
-export const getAllTickets = createAsyncThunk(
+export const getEvents = createAsyncThunk(
   "events/all",
   async (_, { rejectWithValue }) => {
     try {
       return await eventService.getAllEvents();
     } catch (error) {
+      console.log(error);
       return rejectWithValue("Error fetching events");
     }
   }
@@ -47,12 +48,6 @@ export const getAllTickets = createAsyncThunk(
 export const getUserEvents = createAsyncThunk(
   "events/user",
   async (eventData, thunkAPI) => {}
-);
-
-// Get user tickets
-export const getAllEvents = createAsyncThunk(
-  "events/all",
-  async (_, thunkAPI) => {}
 );
 
 // Get user ticket
@@ -77,7 +72,11 @@ export const eventSlice = createSlice({
   reducers: {
     reset: (state) => initialState,
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(getEvents.fulfilled, (state, action) => {
+      state.allEvents = action.payload;
+    });
+  },
 });
 
 export default eventSlice.reducer;

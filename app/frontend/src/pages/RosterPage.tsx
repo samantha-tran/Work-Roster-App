@@ -6,12 +6,12 @@ import ShiftDisplay from "../components/ShiftDisplay";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import { createEvent } from "../features/events/EventSlice";
+import { createEvent, getEvents } from "../features/events/EventSlice";
 import { AppDispatch } from "../app/store";
 
 const RosterPage = () => {
   const { user } = useSelector((state: any) => state.auth);
-  const { events, event, userEvents } = useSelector((state: any) => state.event);
+  const { allEvents, userEvents } = useSelector((state: any) => state.event);
   const dispatch = useDispatch<AppDispatch>();
 
   const [validTimes, setValidTimes] = useState<{ start: string[]; end: string[] }>({
@@ -38,6 +38,8 @@ const RosterPage = () => {
     }
 
     setValidTimes({ start: times, end: times });
+
+    dispatch(getEvents([]));
   }, []);
 
   const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,6 +65,7 @@ const RosterPage = () => {
       toast.error("End time must be after start time!");
     } else {
       dispatch(createEvent(selectedShift));
+      toast.success("Event created!");
     }
   };
 
@@ -70,8 +73,8 @@ const RosterPage = () => {
     {
       id: "1",
       title: "test1",
-      start: "2022-10-03",
-      end: "2022-10-05",
+      start: "2022-10-03T01:00:000Z",
+      end: "2022-10-05T03:00:000Z",
     },
   ];
 
@@ -82,7 +85,7 @@ const RosterPage = () => {
         <div className="col-span-2">
           <div className="card w-100 ml-6 bg-white shadow-xl">
             <div className="card-body">
-              <BigCalendar eventsList={eventsList} />
+              <BigCalendar eventsList={allEvents} />
             </div>
           </div>
         </div>
@@ -148,7 +151,7 @@ const RosterPage = () => {
               <h2 className="card-title">My Coming Shifts</h2>
             </div>
             <div className="overflow-auto mb-1 card p-8 pt-0 rounded-t-none h-52 w-100 bg-base-200">
-              {eventsList.map((e) => {
+              {eventsList.map((e: any) => {
                 return <ShiftDisplay shift={e}></ShiftDisplay>;
               })}
             </div>
