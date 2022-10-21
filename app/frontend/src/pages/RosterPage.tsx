@@ -52,15 +52,6 @@ const RosterPage = () => {
     }
   };
 
-  const eventsList: EventType[] = [
-    {
-      id: "1",
-      title: "test1",
-      start: "2022-10-03T01:00:000Z",
-      end: "2022-10-05T03:00:000Z",
-    },
-  ];
-
   return (
     <div className="flex flex-col">
       <Header />

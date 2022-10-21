@@ -23,8 +23,8 @@ const getAllEvents = async () => {
       id: e._id,
       title: e.user,
       allDay: false,
-      start: new Date(e.end),
-      end: new Date(e.start),
+      start: new Date(e.start),
+      end: new Date(e.end),
     });
   });
   return result;

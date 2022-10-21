@@ -10,9 +10,11 @@ const ShiftDisplay = ({ shift }: { shift: EventType }) => {
         <div className="badge badge-outline">
           {`${start.toLocaleDateString("en-AU", {
             weekday: "short",
-          })} ${start.getDay()} / ${start.getMonth()}`}
+          })} ${start.toLocaleDateString("en-GB")}`}
         </div>
-        <h2 className="card-title text-sm">{`${start.getHours()}:${start.getMinutes()} - ${end.getHours()}:${end.getMinutes()}`}</h2>
+        <h2 className="card-title text-sm">{`${
+          start.toTimeString().split(" ")[0]
+        } - ${end.toTimeString().split(" ")[0]}`}</h2>
         <div className="card-actions justify-end">
           <button className="btn btn-sm btn-circle">
             <TrashIcon className="h-5 w-5"></TrashIcon>
