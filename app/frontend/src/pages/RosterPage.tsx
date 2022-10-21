@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BigCalendar from "../components/BigCalendar";
-import { EventType } from "../types/EventType";
 import ShiftDisplay from "../components/ShiftDisplay";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +13,6 @@ import {
 import { AppDispatch } from "../app/store";
 
 const RosterPage = () => {
-  const { user } = useSelector((state: any) => state.auth);
   const { allEvents, userEvents } = useSelector((state: any) => state.event);
   const dispatch = useDispatch<AppDispatch>();
 

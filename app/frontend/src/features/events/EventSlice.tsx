@@ -41,15 +41,18 @@ export const getEvents: any = createAsyncThunk(
 );
 
 // Get user tickets
-export const getUserEvents = createAsyncThunk("events/user", async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token;
+export const getUserEvents: any = createAsyncThunk(
+  "events/user",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
 
-    return await eventService.getUserEvents(token);
-  } catch (error) {
-    return thunkAPI.rejectWithValue("Error occurred fetching user events");
+      return await eventService.getUserEvents(token);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error occurred fetching user events");
+    }
   }
-});
+);
 
 // Close ticket
 export const removeEvent = createAsyncThunk(
@@ -59,7 +62,7 @@ export const removeEvent = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await eventService.removeEvent(eventID, token);
     } catch (error) {
-      return thunkAPI.rejectWithValue("Error occurred removng the element");
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -81,6 +84,9 @@ export const eventSlice = createSlice({
       })
       .addCase(getUserEvents.fulfilled, (state, action) => {
         state.userEvents = action.payload;
+      })
+      .addCase(removeEvent.rejected, (state, action) => {
+        console.log(action.payload);
       });
   },
 });

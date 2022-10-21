@@ -38,7 +38,7 @@ const removeEvent = async (eventID: string, token: string) => {
     },
   };
 
-  const response = await axios.put(API_URL + eventID, config);
+  const response = await axios.delete(API_URL + `remove/${eventID}`, config);
 
   return response.data;
 };
@@ -51,7 +51,17 @@ const getUserEvents = async (token: string) => {
     },
   };
   const response = await axios.get(API_URL + "user", config);
-  return response.data;
+  let result: any[] = [];
+  response.data.map((e: any) => {
+    result.push({
+      id: e._id,
+      title: e.user,
+      allDay: false,
+      start: new Date(e.start),
+      end: new Date(e.end),
+    });
+  });
+  return result;
 };
 
 const eventService = {
