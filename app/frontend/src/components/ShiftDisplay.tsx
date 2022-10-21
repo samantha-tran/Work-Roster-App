@@ -1,6 +1,10 @@
 import { EventType } from "../types/EventType";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { removeEvent } from "../features/events/EventSlice";
+import {
+  removeEvent,
+  getEvents,
+  getUserEvents,
+} from "../features/events/EventSlice";
 import { AppDispatch } from "../app/store";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";

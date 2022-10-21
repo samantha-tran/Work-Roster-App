@@ -21,7 +21,7 @@ const getAllEvents = async () => {
   response.data.map((e: any) => {
     result.push({
       id: e._id,
-      title: e.user,
+      title: e.title,
       allDay: false,
       start: new Date(e.start),
       end: new Date(e.end),

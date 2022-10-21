@@ -22,6 +22,7 @@ const createEvent = async (req, res) => {
 
   const event = await Event.create({
     user: req.user.id,
+    title,
     start,
     end,
   });
