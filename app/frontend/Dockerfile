@@ -15,4 +15,4 @@ COPY --from=builder /frontend/dist .
 
 EXPOSE 8000
 #run nginx with daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT nginx -g "daemon off;"
