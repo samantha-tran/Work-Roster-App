@@ -16,6 +16,7 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(user);
     } catch (error: any) {
+      console.log(error);
       return thunkAPI.rejectWithValue(
         "Error registering. Account with email already exists"
       );

@@ -2,7 +2,6 @@ import axios from "axios";
 import { UserType } from "../../types/UserType";
 
 const API_URL = "/api/users/";
-axios.defaults.baseURL = `http://localhost:3002`;
 
 // Register user
 const register = async (userData: UserType) => {
