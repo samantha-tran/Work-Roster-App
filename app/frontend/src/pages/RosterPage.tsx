@@ -6,7 +6,11 @@ import ShiftDisplay from "../components/ShiftDisplay";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import { createEvent, getEvents } from "../features/events/EventSlice";
+import {
+  createEvent,
+  getEvents,
+  getUserEvents,
+} from "../features/events/EventSlice";
 import { AppDispatch } from "../app/store";
 
 const RosterPage = () => {
@@ -21,6 +25,7 @@ const RosterPage = () => {
 
   useEffect(() => {
     dispatch(getEvents([]));
+    dispatch(getUserEvents([]));
   }, []);
 
   const dateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +42,10 @@ const RosterPage = () => {
       toast.error("Missing shift values");
     } else if (selectedShift.start > selectedShift.end) {
       toast.error("End time must be after start time!");
+    } else if (
+      new Date(selectedShift.start).getDay() !== new Date(selectedShift.end).getDay()
+    ) {
+      toast.error("Shift must being and end on the same day!");
     } else {
       dispatch(createEvent(selectedShift));
       toast.success("Event created!");
@@ -104,7 +113,7 @@ const RosterPage = () => {
               <h2 className="card-title">My Coming Shifts</h2>
             </div>
             <div className="overflow-auto mb-1 card p-8 pt-0 rounded-t-none h-52 w-100 bg-base-200">
-              {eventsList.map((e: any) => {
+              {userEvents.map((e: any) => {
                 return <ShiftDisplay shift={e}></ShiftDisplay>;
               })}
             </div>

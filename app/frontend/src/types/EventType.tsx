@@ -1,6 +1,6 @@
 export type EventType = {
-  id?: String;
-  title?: String;
-  start: String;
-  end: String;
+  id?: string;
+  title?: string;
+  start: string;
+  end: string;
 };

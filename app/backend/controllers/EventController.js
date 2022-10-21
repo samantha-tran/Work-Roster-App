@@ -1,7 +1,6 @@
 const Event = require("../models/EventModel");
 const User = require("../models/UserModel");
 const asyncHandler = require("express-async-handler");
-const moment = require("moment");
 
 // @desc create an event
 // @route POST /api/events/create
@@ -42,8 +41,6 @@ const removeEvent = async (req, res) => {
   }
 
   const event = await Event.findById(req.params.id);
-  console.log(req.params.id);
-
   if (!event) {
     res.status(404);
     throw new Error("Ticket not found");
@@ -53,6 +50,25 @@ const removeEvent = async (req, res) => {
 
   res.status(200).json({ success: true });
 };
+
+// @desc    Get single event
+// @route   GET /api/events/:id
+// @access  Private
+const getEvent = asyncHandler(async (req, res) => {
+  const event = await Event.findById(req.params.id);
+
+  if (!event) {
+    res.status(404);
+    throw new Error("Event not found");
+  }
+
+  if (event.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("Not Authorized");
+  }
+
+  res.status(200).json(event);
+});
 
 // @desc gets all events
 // @route GET /api/events/all
@@ -69,7 +85,6 @@ const getAllEvents = async (req, res) => {
 const getUserEvents = async (req, res) => {
   // get user using the id in the JWT
   const user = await User.findById(req.user.id);
-  console.log(req.user.id);
 
   if (!user) {
     res.status(401);

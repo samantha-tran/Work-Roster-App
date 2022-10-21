@@ -30,9 +30,35 @@ const getAllEvents = async () => {
   return result;
 };
 
+// Remove Event
+const removeEvent = async (eventID: string, token: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(API_URL + eventID, config);
+
+  return response.data;
+};
+
+// Get User Events
+const getUserEvents = async (token: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(API_URL + "user", config);
+  return response.data;
+};
+
 const eventService = {
   createEvent,
   getAllEvents,
+  removeEvent,
+  getUserEvents,
 };
 
 export default eventService;
