@@ -14,54 +14,28 @@ const RosterPage = () => {
   const { allEvents, userEvents } = useSelector((state: any) => state.event);
   const dispatch = useDispatch<AppDispatch>();
 
-  const [validTimes, setValidTimes] = useState<{ start: string[]; end: string[] }>({
-    start: [],
-    end: [],
-  });
-
   const [selectedShift, setSelectedShift] = useState({
-    startTime: "",
-    endTime: "",
-    date: "",
+    start: "",
+    end: "",
   });
 
   useEffect(() => {
-    let times: string[] = [];
-    for (let hour = 0; hour < 24; hour++) {
-      times = [
-        ...times,
-        "" + hour + ":00",
-        "" + hour + ":15",
-        "" + hour + ":30",
-        "" + hour + ":45",
-      ];
-    }
-
-    setValidTimes({ start: times, end: times });
-
     dispatch(getEvents([]));
   }, []);
 
-  const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const dateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedShift((prevShift) => ({
       ...prevShift,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const dateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedShift((prevShift) => ({
-      ...prevShift,
-      ["date"]: e.target.value,
-    }));
-  };
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!selectedShift.date || !selectedShift.startTime || !selectedShift.endTime) {
+    if (!selectedShift.start || !selectedShift.end) {
       toast.error("Missing shift values");
-    } else if (selectedShift.startTime > selectedShift.endTime) {
+    } else if (selectedShift.start > selectedShift.end) {
       toast.error("End time must be after start time!");
     } else {
       dispatch(createEvent(selectedShift));
@@ -94,48 +68,27 @@ const RosterPage = () => {
             <div className="mb-3 mt-1 card h-88 bg-base-200">
               <div className="card-body items-center">
                 <form onSubmit={onSubmit} className="form-control w-full max-w-xs">
-                  <h1 className="block text-sm font-medium text-gray-700">
-                    Start Time
-                  </h1>
-                  <div className="bg-white w-80 rounded-md">
-                    <select
-                      name="startTime"
-                      onChange={selectChange}
-                      className="select bg-white focus:outline-none select-sm w-full max-w-xs"
-                    >
-                      <option value="" selected disabled hidden>
-                        Select
-                      </option>
-                      {validTimes.start.map((time, index) => {
-                        return <option value={time}>{time}</option>;
-                      })}
-                    </select>
-                  </div>
-                  <h1 className="block mt-5 text-sm font-medium text-gray-700">
-                    End Time
-                  </h1>
-                  <div className="bg-white w-80 rounded-md">
-                    <select
-                      name="endTime"
-                      onChange={selectChange}
-                      className="select bg-white focus:outline-none select-sm w-full max-w-xs"
-                    >
-                      <option value="" selected disabled hidden>
-                        Select
-                      </option>
-                      {validTimes.end.map((time, index) => {
-                        return <option value={time}>{time}</option>;
-                      })}
-                    </select>
-                  </div>
                   <h1 className="block mt-4 text-sm font-medium text-gray-700">
-                    Date
+                    Start
                   </h1>
                   <div className="px-2 py-1 bg-white rounded-md">
                     <input
                       className="outline-transparent	"
-                      type="date"
-                      name="date"
+                      type="datetime-local"
+                      name="start"
+                      min="2022-01-01"
+                      max="2023-12-31"
+                      onChange={dateChange}
+                    ></input>
+                  </div>
+                  <h1 className="block mt-4 text-sm font-medium text-gray-700">
+                    End
+                  </h1>
+                  <div className="px-2 py-1 bg-white rounded-md">
+                    <input
+                      className="outline-transparent	"
+                      type="datetime-local"
+                      name="end"
                       min="2022-01-01"
                       max="2023-12-31"
                       onChange={dateChange}

@@ -7,8 +7,8 @@ const moment = require("moment");
 // @route POST /api/events/create
 // @access public
 const createEvent = async (req, res) => {
-  const { startTime, endTime, date } = req.body;
-  if (!startTime || !endTime || !date) {
+  const { start, end, title } = req.body;
+  if (!start || !end || !title) {
     res.status(400);
     throw new Error("Please provide start time, end time and date");
   }
@@ -20,14 +20,11 @@ const createEvent = async (req, res) => {
     res.status(401);
     throw new Error("User not found!");
   }
-  //Date in YYYY-MM-DDTHH:mm:ss.sssZ format
-  //input date type returns a string representing a date in YYYY-MM-DD format, or empty
-  const start = date + "T" + startTime + ":00";
-  const end = date + "T" + endTime + ":00 ";
+
   const event = await Event.create({
     user: req.user.id,
-    startTime: start,
-    endTime: end,
+    start,
+    end,
   });
 
   res.status(201).json(event);

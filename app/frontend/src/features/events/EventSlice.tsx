@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, combineReducers } from "@reduxjs/toolkit";
 import eventService from "./EventService";
-import { DecomposedEventType, EventType } from "../../types/EventType";
+import { EventType } from "../../types/EventType";
 
 const initialState = {
   allEvents: [],
@@ -10,19 +10,15 @@ const initialState = {
 
 export const createEvent = createAsyncThunk(
   "events/create",
-  async (
-    eventData: DecomposedEventType,
-    { rejectWithValue, getState, dispatch }
-  ) => {
+  async (eventData: EventType, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState().auth.user.token;
-      const { startTime, endTime, date } = eventData;
+      const { start, end } = eventData;
 
       const event = {
         title: getState().auth.user,
-        startTime,
-        endTime,
-        date,
+        start,
+        end,
       };
 
       return await eventService.createEvent(event, token);
@@ -32,7 +28,7 @@ export const createEvent = createAsyncThunk(
   }
 );
 
-export const getEvents = createAsyncThunk(
+export const getEvents: any = createAsyncThunk(
   "events/all",
   async (_, { rejectWithValue }) => {
     try {

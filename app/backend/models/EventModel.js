@@ -7,11 +7,11 @@ const eventSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    startTime: {
+    start: {
       type: String,
       required: [true],
     },
-    endTime: {
+    end: {
       type: String,
       required: [true],
     },
