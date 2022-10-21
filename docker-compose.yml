@@ -38,6 +38,10 @@ services:
     build:
       context: ./app/backend
       dockerfile: Dockerfile
+    environment:
+      MONGO_URI: workrosterapp
+      NODE_ENV: production
+      JWT_SECRET: bobisuruncle
     depends_on:
       - mongo-db
     ports:

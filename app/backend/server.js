@@ -27,7 +27,3 @@ app.listen(PORT, HOST, () => {
 
 app.use("/api/events", require("./routes/EventsRoutes"));
 app.use("/api/users", require("./routes/UsersRoutes"));
-
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hello" });
-});
