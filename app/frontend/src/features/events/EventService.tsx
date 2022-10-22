@@ -1,7 +1,7 @@
 import axios from "axios";
 import { EventType } from "../../types/EventType";
 
-const API_URL = ":8000/api/events/";
+const API_URL = "api/events/";
 
 // create a new event
 const createEvent = async (eventData: EventType, token: string) => {
