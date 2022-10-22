@@ -1,6 +1,6 @@
 FROM node:latest AS builder
 ENV NODE_ENV=development
-ENV PORT = 8000
+ENV PORT=8000
 WORKDIR /frontend
 COPY . .
 RUN yarn install && yarn build
