@@ -18,7 +18,7 @@ Typescript ReactJS. Frontend container is a multi-stage build which runs an ngin
 * Set up 3 nodes in a swarm
 
 
-**Install docker-compose on manager:**
+**SSH into manager node and install docker-compose on manager:**
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
@@ -46,5 +46,28 @@ docker network create --scope=swarm --driver=overlay   --subnet=172.22.0.0/16 --
 ```
 **Deploy:**
 ```
-docker stack deploy -c docker-compose-swarm.yml workrosterapp
+docker stack deploy --compose-file docker-compose-swarm.yml workrosterapp
 ```
+
+## Initalising swarm
+On manager node: `docker swarm init --advertise-addr $(hostname -i)`
+On worker nodes: 
+`docker swarm join --token [token from above command] [external IP]:2377`
+`docker swarm join --token SWMTKN-1-63pgr6yunrqs0l3gfjkgfscpckwtwncildnp7q1tz4pt8j043e-cn9tq6n4fdd5ukavixdcpxpk1 34.172.177.87:2377`
+
+
+## Exiting swarm
+`docker stack rm workrosterapp`
+`docker service rm registry`
+`docker network rm app-network`
+`docker swarm leave --force` 
+
+## Demo
+1. Start instances
+2. SSH into manager node
+3. cd into directory with docker-compose-swarm.yml file and deploy stack `docker stack deploy --compose-file docker-compose-swarm.yml workrosterapp`
+4. view services `docker stack ps workrosterapp -f desired-state=Running`. The three services are evenly distributed amongst the 3 nodes. 
+5. `docker service ls` Currently there should only be 1 replica of each service.
+5. connect to any node to access the website
+6. Scale services `docker service scale workrosterapp_client=3` `docker stack ps workrosterapp -f desired-state=Running`
+7. Make node only available as manager and not for assigment `docker node update --availability drain manager`
