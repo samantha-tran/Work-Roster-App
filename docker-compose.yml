@@ -2,6 +2,7 @@ version: "3"
 
 services:
   server:
+    image: 127.0.0.1:5000/backend
     build:
       context: ./app/backend
       dockerfile: Dockerfile
@@ -24,6 +25,7 @@ services:
     networks:
       - app-network
   client:
+    image: 127.0.0.1:5000/frontend
     build:
       context: ./app/frontend
       dockerfile: Dockerfile
@@ -34,9 +36,10 @@ services:
     networks:
       - app-network
 
-networks:
+nnetworks:
   app-network:
-    driver: bridge
+    external:
+      name: app-network
 
 volumes:
   data-volume:
