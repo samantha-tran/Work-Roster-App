@@ -32,12 +32,12 @@ docker service create --name registry --publish published=5000,target=5000 regis
 
 **Build the custom images:**
 ```
-docker-compose -f docker-compose.yml build`
+docker-compose -f docker-compose-swarm.yml build`
 ```
 
 **Push custom app images to registery:**
 ```
-docker-compose -f docker-compose.yml push`
+docker-compose -f docker-compose-swarm.yml push`
 ```
 
 **Create network:**
@@ -46,5 +46,5 @@ docker network create --scope=swarm --driver=overlay   --subnet=172.22.0.0/16 --
 ```
 **Deploy:**
 ```
-docker stack deploy -c docker-compose.yml workrosterapp
+docker stack deploy -c docker-compose-swarm.yml workrosterapp
 ```
