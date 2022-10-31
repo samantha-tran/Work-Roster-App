@@ -1,6 +1,6 @@
 FROM node:latest AS builder
 ENV NODE_ENV=development
-ENV PORT=8000
+ENV PORT=80
 WORKDIR /frontend
 COPY . .
 RUN yarn install && yarn build
@@ -11,5 +11,5 @@ RUN rm -rf ./*
 COPY --from=builder /frontend/dist .
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-EXPOSE 8000
+EXPOSE 80
 ENTRYPOINT nginx -g "daemon off;"
