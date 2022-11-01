@@ -1,21 +1,32 @@
 # INFS3208 Project - Work Roster App
 This is a speedran project for INFS3208. It is a roster / availability sharing application.
 
-# Project Architecture
-## Database
-MongoDB
+### Login
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/login.png"></img>
+### Register
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/register.png"></img>
+### Create a shift
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/create.png"></img>
+### Day View
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/day.png"></img>
+### Week View
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/week.png"></img>
+### Month View
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/month.png"></img>
+### Agenda View
+<img src="https://github.com/samantha-tran/Work-Roster-App/blob/main/readme-assets/agenda.png"></img>
 
 
-## Backend
-Nodejs Express Server. Backend is accessed through the reverse proxy set up by the Nginx server on the frontend.
+## Project Architecture
+* Database: MongoDB 
+* Backend: Nodejs Express Server. Backend is accessed through the reverse proxy set up by the Nginx server on the frontend.
+* Frontend: Typescript ReactJS. Frontend container is a multi-stage build which runs an nginx server with the static compiled application files.
 
-## Frontend
-Typescript ReactJS. Frontend container is a multi-stage build which runs an nginx server with the static compiled application files.
 
+## Set Up / Installation
 
-# Set Up / Installation
-## Docker Swarm Usage
-* Set up 3 nodes in a swarm
+### Docker Swarm Usage
+Set up 3 nodes in a swarm
 
 
 **SSH into manager node and install docker-compose on manager:**
@@ -49,25 +60,33 @@ docker network create --scope=swarm --driver=overlay   --subnet=172.22.0.0/16 --
 docker stack deploy --compose-file docker-compose-swarm.yml workrosterapp
 ```
 
-## Initalising swarm
-On manager node: `docker swarm init --advertise-addr $(hostname -i)`
-On worker nodes: 
+**Initalising swarm**
+On manager node:\
+`docker swarm init --advertise-addr $(hostname -i)`\
+On worker nodes: \
 `docker swarm join --token [token from above command] [external IP]:2377`
-`docker swarm join --token SWMTKN-1-63pgr6yunrqs0l3gfjkgfscpckwtwncildnp7q1tz4pt8j043e-cn9tq6n4fdd5ukavixdcpxpk1 34.172.177.87:2377`
 
+**Exiting swarm**
+```
+docker stack rm workrosterapp
+docker service rm registry
+docker network rm app-network
+docker swarm leave --force
+```
 
-## Exiting swarm
-`docker stack rm workrosterapp`
-`docker service rm registry`
-`docker network rm app-network`
-`docker swarm leave --force` 
+### Docker-compose Usage
+**Building images**
+```
+cd Work-Roster-App
+docker-compose build
+```
 
-## Demo
-1. Start instances
-2. SSH into manager node
-3. cd into directory with docker-compose-swarm.yml file and deploy stack `docker stack deploy --compose-file docker-compose-swarm.yml workrosterapp`
-4. view services `docker stack ps workrosterapp -f desired-state=Running`. The three services are evenly distributed amongst the 3 nodes. 
-5. `docker service ls` Currently there should only be 1 replica of each service.
-5. connect to any node to access the website
-6. Scale services `docker service scale workrosterapp_client=3` `docker stack ps workrosterapp -f desired-state=Running`
-7. Make node only available as manager and not for assigment `docker node update --availability drain manager`
+**Starting containers**
+```
+docker-compose up
+```
+
+**Stoping containers**
+```
+docker-compose down -v
+```
